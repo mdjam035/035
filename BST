@@ -1,0 +1,96 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct node
+{ 
+ struct node *leftchild; 
+ int data; 
+ struct node *rightchild; 
+}; 
+typedef struct node *treePointer; 
+treePointer root = NULL; // Initialize an empty tree
+treePointer createnode(int value); 
+treePointer insertBST(treePointer root, int value); 
+void inorder(treePointer root); 
+void preorder(treePointer root); 
+void postorder(treePointer root); 
+int main() 
+{ 
+ int values[] = {40,20,60,10,30,50,70,45,52,55}; 
+ int i, ch, n = 10; // n is Size of the above array...
+ while (1) 
+ { 
+printf("1.Construct BST\n 2.Traversals \n3.Exit \nEnter Your Choice:"); 
+ scanf("%d", &ch); 
+ switch (ch) 
+ { 
+ case 1: 
+ for (i = 0; i < n; i++) 
+ { 
+ root = insertBST(root, values[i]); 
+ } 
+ printf("Binary Search Tree Constructed.\n "); 
+ break; 
+ case 2: 
+ printf("\n Inorder: "); 
+ inorder(root); 
+ printf("\n Pre order: "); 
+ preorder(root); 
+ printf("\n Post order: "); 
+ postorder(root); 
+ printf("\n");break; 
+ case 4: 
+ exit(0); 
+ } 
+ } 
+ return 0; 
+} 
+treePointer createnode(int value) 
+{ 
+ treePointer temp = malloc(sizeof(struct node)); 
+ temp->data = value; 
+ temp->leftchild = NULL; 
+ temp->rightchild = NULL; 
+ return temp; 
+} 
+treePointer insertBST(treePointer root, int value) 
+{ 
+ if (root == NULL) 
+ { 
+ root = createnode(value); 
+ } 
+ else if (value < root->data) 
+ { 
+ root->leftchild = insertBST(root->leftchild, value); 
+ } 
+ else
+ { 
+ root->rightchild = insertBST(root->rightchild, value); 
+ } 
+ return root; 
+} 
+void inorder(treePointer root) 
+{ 
+ if (root) 
+ { 
+ inorder(root->leftchild);
+ printf("%d ", root->data); 
+ inorder(root->rightchild); 
+ } 
+}void preorder(treePointer root) 
+{ 
+ if (root) 
+ { 
+ printf("%d ", root->data); 
+ preorder(root->leftchild); 
+ preorder(root->rightchild); 
+ } 
+} 
+void postorder(treePointer root) 
+{ 
+ if (root) 
+ { 
+ postorder(root->leftchild); 
+ postorder(root->rightchild); 
+ printf("%d ", root->data); 
+ } 
+}
